@@ -9,5 +9,16 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@joca/wttj-crawler": [
+        "libs/wttj-crawler/src"
+      ],
+      "@joca/wttj-crawler/*": [
+        "libs/wttj-crawler/src/*"
+      ]
+    }
+  }
 }

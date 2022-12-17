@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "wttj-crawler": {
+      "type": "library",
+      "root": "libs/wttj-crawler",
+      "entryFile": "index",
+      "sourceRoot": "libs/wttj-crawler/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/wttj-crawler/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
+}

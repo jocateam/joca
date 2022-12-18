@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { Provider } from '@nestjs/common';
 import { DATA_SOURCE } from '../../shared/constants';
-import { Offer } from '../../resources/offer/entities/offer.entity';
+import { Offer } from '../../resources/offer/offer.entity';
 import { ConfigService } from '@nestjs/config';
 
 export const databaseProviders: Provider[] = [
@@ -24,6 +24,6 @@ export const databaseProviders: Provider[] = [
 
       return dataSource.initialize();
     },
-    inject: [ConfigService]
+    inject: [ConfigService],
   },
 ];

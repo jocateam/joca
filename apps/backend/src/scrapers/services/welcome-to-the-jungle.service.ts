@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { WttjCrawlerService } from '@joca/wttj-crawler';
 import { SORT_BY_VALUES } from '@joca/wttj-crawler/constants';
 import { WttjOutput } from '@joca/wttj-crawler/wttj-output';
-import { Offer } from '../../resources/offer/entities/offer.entity';
-import { OfferService } from '../../resources/offer/services/offer.service';
+import { Offer } from '../../resources/offer/offer.entity';
+import { OfferService } from '../../resources/offer/offer.service';
 
 @Injectable()
 export class WelcomeToTheJungleService {
   constructor(
     private readonly wttjCrawler: WttjCrawlerService,
-    private readonly offerService: OfferService,
+    private readonly offerService: OfferService
   ) {}
 
   async crawlAll() {

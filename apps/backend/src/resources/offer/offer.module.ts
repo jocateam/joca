@@ -4,7 +4,6 @@ import { OfferController } from './offer.controller';
 import { offerProviders } from './providers/offer.providers';
 import { SharedModule } from '../../shared/shared.module';
 import { GetAllOffersQueryHandler } from './queries/get-all-offers.query-handler';
-import { CqrsModule } from '@nestjs/cqrs';
 import { BulkCreateOffersCommandHandler } from './commands/bulk-create-offers.command-handler';
 import { CreateOneOfferCommandHandler } from './commands/create-one-offer.command-handler';
 
@@ -15,7 +14,7 @@ const CommandHandlers = [
 ];
 
 @Module({
-  imports: [CqrsModule, SharedModule],
+  imports: [SharedModule],
   controllers: [OfferController],
   providers: [
     ...CommandHandlers,

@@ -2,14 +2,14 @@ import { SORT_BY_VALUES } from './constants';
 import countries from './countries';
 
 export interface Inputs {
-  nbPages?: never;
-  query?: never;
-  sortBy?: never;
-  city?: never;
-  country?: never;
-  remote?: never;
-  minLevel?: never;
-  maxLevel?: never;
+  nbPages?: unknown;
+  query?: unknown;
+  sortBy?: unknown;
+  city?: unknown;
+  country?: unknown;
+  remote?: unknown;
+  minLevel?: unknown;
+  maxLevel?: unknown;
 }
 
 export const validateInputs = async (inputs: Inputs) => {
@@ -37,14 +37,14 @@ export const validateInputs = async (inputs: Inputs) => {
   let sortBy;
   if (typeof inputs.sortBy === 'undefined') {
     sortBy = SORT_BY_VALUES.MOST_RELEVANT;
-  } else if (!Object.values(SORT_BY_VALUES).includes(inputs.sortBy)) {
+  } else if (!Object.values(SORT_BY_VALUES).includes(inputs.sortBy as SORT_BY_VALUES)) {
     throw new Error(
       `The sortBy variable needs to be included in: ${Object.values(
         SORT_BY_VALUES,
       )}.`,
     );
   } else {
-    sortBy = encodeURIComponent(inputs.sortBy);
+    sortBy = encodeURIComponent(inputs.sortBy as SORT_BY_VALUES);
   }
 
   // country Validator
@@ -54,7 +54,7 @@ export const validateInputs = async (inputs: Inputs) => {
   } else if (
     typeof inputs.country !== 'string' ||
     !countries.find(
-      (c) => c.name.toLowerCase() === inputs.country.toLowerCase(),
+      (c) => c.name.toLowerCase() === (inputs.country as string).toLowerCase(),
     )
   ) {
     throw new Error(`The country variable needs to be a country string.`);

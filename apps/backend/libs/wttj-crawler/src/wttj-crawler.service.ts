@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BASE_URL, GMAP_API_KEY } from '@joca/wttj-crawler/constants';
-import { PuppeteerCrawler } from 'crawlee';
+import { PuppeteerCrawler, purgeDefaultStorages } from 'crawlee';
 import { WttjCrawlerRouter } from '@joca/wttj-crawler/wttj-crawler.router';
 import { WttjInputs } from '@joca/wttj-crawler/wttj-inputs';
 import { validateInputs } from '@joca/wttj-crawler/inputs';
@@ -82,12 +82,14 @@ export class WttjCrawlerService {
       requestHandler: crawlerRouter.getRouter(),
       maxRequestRetries: 10,
       headless: true,
+
     });
 
     return {
       subject: crawlerRouter.offers$,
-      run: crawler.run(startUrls).then((res) => {
+      run: crawler.run(startUrls).then(async (res) => {
         crawlerRouter.offers$.complete();
+        await purgeDefaultStorages();
         return res;
       }),
     };

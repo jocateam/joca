@@ -13,7 +13,6 @@ describe('Wttj scraper', () => {
   let service: WelcomeToTheJungleService;
 
   beforeEach(async () => {
-    console.log("dirnme:", __dirname);
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         WttjCrawlerModule,
@@ -30,7 +29,7 @@ describe('Wttj scraper', () => {
     service = module.get<WelcomeToTheJungleService>(WelcomeToTheJungleService);
   });
 
-  it('should log the offers', async () => {
+  it('should crawl the offers', async () => {
     await service.crawlAll();
   });
 });

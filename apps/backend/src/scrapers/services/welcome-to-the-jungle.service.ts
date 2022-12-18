@@ -19,10 +19,10 @@ export class WelcomeToTheJungleService {
     });
 
     let offers: WttjOutput[] = [];
-    crawler.subject.subscribe(async (offer) => {
+    crawler.subject.subscribe((offer) => {
       offers.push(offer);
-      if (offers.length > 50) {
-        await this.insertIntoDb(offers);
+      if (offers.length > 20) {
+        this.insertIntoDb([...offers]).then();
         offers = [];
       }
     });

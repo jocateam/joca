@@ -32,30 +32,11 @@ export class WttjCrawlerRouter {
   }
 
   public initRouter() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.router.addDefaultHandler(
       async ({ parseWithCheerio, crawler, log, page }) => {
-        await this.listingHandler({ parseWithCheerio, crawler, log });
-
-        if (this.currentPage < this.nbPages || this.nbPages === 0) {
-          await new Promise(() => {
-            return page.click(
-              '.ais-Pagination-list .ais-Pagination-item--nextPage > a',
-            );
-          }).then((res) => {
-            console.log('RESRRERESRESRES', res);
-            return new Promise((resolve) => {
-              setTimeout(async () => {
-                resolve(
-                  await this.listingHandler({
-                    parseWithCheerio,
-                    crawler,
-                    log,
-                  }),
-                );
-              }, 2000);
-            });
-          });
-        }
+        await this.listingHandler({ parseWithCheerio, crawler, log, page });
       },
     );
 
@@ -161,7 +142,7 @@ export class WttjCrawlerRouter {
     return this;
   }
 
-  private async listingHandler({ parseWithCheerio, crawler, log }: any) {
+  private async listingHandler({ parseWithCheerio, crawler, log, page }: any) {
     let $: any;
 
     await new Promise((resolve) => {
@@ -176,10 +157,10 @@ export class WttjCrawlerRouter {
       }, 1000);
     })
       .then((offers) => {
-        return offers as any;
+        return offers as any[];
       })
       .then(async (offers) => {
-        log.info('Currently scraping...');
+        log.info('Currently scraping...', offers.length, 'offers');
         for (const offer of offers) {
           const elem = $(offer);
           const offerId = Number(
@@ -202,6 +183,21 @@ export class WttjCrawlerRouter {
           }
         }
       });
+
+    if (this.currentPage < this.nbPages || this.nbPages === 0) {
+      return page.click('.ais-Pagination-list .ais-Pagination-item--nextPage > a')
+        .then(() => {
+        this.currentPage++;
+        return this.listingHandler({
+          parseWithCheerio,
+          crawler,
+          log,
+          page,
+        })
+      });
+    }
+
+    return Promise.resolve(true);
   }
 }
 

@@ -37,11 +37,13 @@ export const validateInputs = async (inputs: Inputs) => {
   let sortBy;
   if (typeof inputs.sortBy === 'undefined') {
     sortBy = SORT_BY_VALUES.MOST_RELEVANT;
-  } else if (!Object.values(SORT_BY_VALUES).includes(inputs.sortBy as SORT_BY_VALUES)) {
+  } else if (
+    !Object.values(SORT_BY_VALUES).includes(inputs.sortBy as SORT_BY_VALUES)
+  ) {
     throw new Error(
       `The sortBy variable needs to be included in: ${Object.values(
-        SORT_BY_VALUES,
-      )}.`,
+        SORT_BY_VALUES
+      )}.`
     );
   } else {
     sortBy = encodeURIComponent(inputs.sortBy as SORT_BY_VALUES);
@@ -54,7 +56,7 @@ export const validateInputs = async (inputs: Inputs) => {
   } else if (
     typeof inputs.country !== 'string' ||
     !countries.find(
-      (c) => c.name.toLowerCase() === (inputs.country as string).toLowerCase(),
+      (c) => c.name.toLowerCase() === (inputs.country as string).toLowerCase()
     )
   ) {
     throw new Error(`The country variable needs to be a country string.`);
@@ -93,7 +95,7 @@ export const validateInputs = async (inputs: Inputs) => {
     throw new Error(`The level years needs to be numbers.`);
   } else if (minLevel > maxLevel) {
     throw new Error(
-      `The minimum level years needs to be greater than the maximum level years.`,
+      `The minimum level years needs to be greater than the maximum level years.`
     );
   }
   const level = {

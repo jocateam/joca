@@ -35,8 +35,8 @@ export class WttjCrawlerService {
 
       const data = await getJSON(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          city,
-        )}&key=${GMAP_API_KEY}`,
+          city
+        )}&key=${GMAP_API_KEY}`
       ).catch((error) => {
         console.error(error);
       });
@@ -56,21 +56,21 @@ export class WttjCrawlerService {
     const experienceLevel = [];
     if (level) {
       experienceLevel.push(
-        `${encodeURI(`range[experience_level_minimum][min]=${level.min}`)}`,
+        `${encodeURI(`range[experience_level_minimum][min]=${level.min}`)}`
       );
       experienceLevel.push(
-        `${encodeURI(`range[experience_level_minimum][max]=${level.max}`)}`,
+        `${encodeURI(`range[experience_level_minimum][max]=${level.max}`)}`
       );
     }
 
     const startUrls = [];
     startUrls.push(
       `${BASE_URL}/en/jobs?page=1&groupBy=job&sortBy=${sortBy}&aroundQuery=${encodeURI(
-        location.join(', '),
+        location.join(', ')
       )}` +
-      `&aroundLatLng=${aroundLatLng}&aroundRadius=${radius}&query=${query}&${refinementList.join(
-        '&',
-      )}&${experienceLevel.join('&')}`,
+        `&aroundLatLng=${aroundLatLng}&aroundRadius=${radius}&query=${query}&${refinementList.join(
+          '&'
+        )}&${experienceLevel.join('&')}`
     );
 
     // TODO get offers in db (only references)
@@ -82,7 +82,6 @@ export class WttjCrawlerService {
       requestHandler: crawlerRouter.getRouter(),
       maxRequestRetries: 10,
       headless: true,
-
     });
 
     return {

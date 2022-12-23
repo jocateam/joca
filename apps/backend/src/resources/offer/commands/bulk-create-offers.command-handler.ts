@@ -20,18 +20,14 @@ export class BulkCreateOffersCommandHandler
   ) {}
 
   async execute(command: BulkCreateOffersCommand): Promise<InsertResult> {
-    // TODO get all sources
     const companies: Company[] = [];
-    const sources: Source[] = [];
+    const sources: Source[] = await this._sourceService.getAll();
 
     const offers: Offer[] = [];
     for (const offer of command.offers) {
       let source;
       let company;
-      if (offer.source && !sources.find((s) => s.name === offer.source)) {
-        source = await this._sourceService.getSourceByName(offer.source);
-        sources.push(source);
-      } else if (offer.source) {
+      if (offer.source) {
         source = sources.find((s) => s.name === offer.source);
       }
       if (offer.company && !companies.find((c) => c.name === offer.source)) {

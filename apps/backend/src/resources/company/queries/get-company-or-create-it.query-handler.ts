@@ -17,7 +17,9 @@ export class GetCompanyOrCreateItQueryHandler
   ) {}
 
   async execute(query: GetCompanyOrCreateItQuery): Promise<Company> {
-    const company = await this._repository.findOneBy({ name: query.name });
+    const company = await this._repository.findOneBy({
+      name: query.name,
+    });
     if (company) {
       return company;
     }
@@ -25,7 +27,6 @@ export class GetCompanyOrCreateItQueryHandler
     return await this._companyService
       .create({ name: query.name, domain: query.domain })
       .then((c) => {
-        console.log(c);
         return this._repository.create({ id: Number(c.identifiers[0]) });
       });
   }

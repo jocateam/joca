@@ -26,8 +26,14 @@ export class GetCompanyOrCreateItQueryHandler
 
     return await this._companyService
       .create({ name: query.name, domain: query.domain })
-      .then((c) => {
-        return this._repository.create({ id: Number(c.identifiers[0]) });
+      .then((res) => {
+        if (res.identifiers.length > 0) {
+          return this._repository.create({
+            id: Number(res.identifiers[0]?.id ?? 0),
+          });
+        } else {
+          return this._repository.create();
+        }
       });
   }
 }

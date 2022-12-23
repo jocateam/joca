@@ -30,7 +30,10 @@ export class BulkCreateOffersCommandHandler
       if (offer.source) {
         source = sources.find((s) => s.name === offer.source);
       }
-      if (offer.company && !companies.find((c) => c.name === offer.source)) {
+      if (
+        offer.company &&
+        !companies.find((c) => c.name === offer.company.name)
+      ) {
         company = await this._companyService.findOrCreate(offer.company);
         companies.push(company);
       } else if (offer.company) {

@@ -6,15 +6,17 @@ import { SharedModule } from '../../shared/shared.module';
 import { GetAllOffersQueryHandler } from './queries/get-all-offers.query-handler';
 import { BulkCreateOffersCommandHandler } from './commands/bulk-create-offers.command-handler';
 import { CreateOneOfferCommandHandler } from './commands/create-one-offer.command-handler';
+import { SourceModule } from '../source/source.module';
+import { CompanyModule } from '../company/company.module';
 
-const QueryHandlers = [GetAllOffersQueryHandler];
 const CommandHandlers = [
   BulkCreateOffersCommandHandler,
   CreateOneOfferCommandHandler,
 ];
+const QueryHandlers = [GetAllOffersQueryHandler];
 
 @Module({
-  imports: [SharedModule],
+  imports: [CompanyModule, SharedModule, SourceModule],
   controllers: [OfferController],
   providers: [
     ...CommandHandlers,
@@ -22,6 +24,11 @@ const CommandHandlers = [
     ...offerProviders,
     OfferService,
   ],
-  exports: [OfferService],
+  exports: [
+    ...CommandHandlers,
+    ...QueryHandlers,
+    ...offerProviders,
+    OfferService,
+  ],
 })
 export class OfferModule {}

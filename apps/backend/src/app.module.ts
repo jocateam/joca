@@ -6,6 +6,9 @@ import { ScrapersModule } from './scrapers/scrapers.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './resources/auth/auth.module';
 import { UserModule } from './resources/user/user.module';
+import { SourceModule } from './resources/source/source.module';
+import { CompanyModule } from './resources/company/company.module';
+import { LocationModule } from './resources/location/location.module';
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { UserModule } from './resources/user/user.module';
     SharedModule,
     AuthModule,
     UserModule,
+    SourceModule,
+    CompanyModule,
+    LocationModule,
   ],
 })
 export class AppModule {}

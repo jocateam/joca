@@ -14,6 +14,8 @@ export class GetAllOffersQueryHandler
   ) {}
 
   execute(): Promise<Offer[]> {
-    return this._repository.find();
+    return this._repository.find({
+      relations: ['source', 'company'],
+    });
   }
 }

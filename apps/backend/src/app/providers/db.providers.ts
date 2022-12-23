@@ -3,6 +3,9 @@ import { Provider } from '@nestjs/common';
 import { DATA_SOURCE } from '../../shared/constants';
 import { Offer } from '../../resources/offer/offer.entity';
 import { ConfigService } from '@nestjs/config';
+import { User } from '../../resources/user/user.entity';
+import { Source } from '../../resources/source/source.entity';
+import { Company } from '../../resources/company/company.entity';
 
 export const databaseProviders: Provider[] = [
   {
@@ -15,11 +18,12 @@ export const databaseProviders: Provider[] = [
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASS', ''),
         database: configService.get('DB_NAME'),
-        entities: [Offer],
+        entities: [Company, Offer, Source, User],
         synchronize: configService.get('DB_SYNC', '0') == 1,
         logging: configService.get('DEBUG', '0') == 1,
         debug: configService.get('SQL_DEBUG', '0') == 1,
         dropSchema: configService.get('DB_DROP', '0') == 1,
+        migrationsRun: configService.get('DB_MIGRATION_SYNC', '0') == 1,
       });
 
       return dataSource.initialize();

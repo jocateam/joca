@@ -11,9 +11,10 @@ jest.setTimeout(60 * 5 * 1000);
 
 describe('Wttj scraper', () => {
   let service: WelcomeToTheJungleService;
+  let moduleRef: TestingModule;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       imports: [
         WttjCrawlerModule,
         ScrapersModule,
@@ -26,7 +27,11 @@ describe('Wttj scraper', () => {
       ],
     }).compile();
 
-    service = module.get<WelcomeToTheJungleService>(WelcomeToTheJungleService);
+    await moduleRef.init();
+
+    service = moduleRef.get<WelcomeToTheJungleService>(
+      WelcomeToTheJungleService
+    );
   });
 
   it('should crawl the offers', async () => {

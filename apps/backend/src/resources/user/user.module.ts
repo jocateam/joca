@@ -4,18 +4,14 @@ import { UserController } from './user.controller';
 import { userProviders } from './providers/offer.providers';
 import { GetUserByIdQueryHandler } from './queries/get-user-by-id.query-handler';
 import { SharedModule } from '../../shared/shared.module';
+import { IsUserUniqueQueryHandler } from './queries/is-user-unique.query-handler';
 
-const QueryHandlers = [GetUserByIdQueryHandler];
-// const CommandHandlers = [];
+const QueryHandlers = [GetUserByIdQueryHandler, IsUserUniqueQueryHandler];
 
 @Module({
-  imports: [SharedModule],
   controllers: [UserController],
-  providers: [
-    // ...CommandHandlers,
-    ...QueryHandlers,
-    ...userProviders,
-    UserService,
-  ],
+  imports: [SharedModule],
+  providers: [...QueryHandlers, ...userProviders, UserService],
+  exports: [...QueryHandlers, ...userProviders, UserService],
 })
 export class UserModule {}

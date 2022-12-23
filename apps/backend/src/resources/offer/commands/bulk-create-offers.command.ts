@@ -1,9 +1,9 @@
-import { Offer } from '../offer.entity';
+import { CreateOfferDto } from '../dtos/create-offer.dto';
 
 export class BulkCreateOffersCommand {
-  constructor(private readonly _offers: Offer[]) {}
+  constructor(private readonly _offers: CreateOfferDto[]) {}
 
-  get offers(): Offer[] {
+  get offers(): CreateOfferDto[] {
     return [...this._offers];
   }
 }

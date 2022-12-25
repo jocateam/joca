@@ -4,13 +4,36 @@ import { AuthController } from './auth.controller';
 import { LoginUserQueryHandler } from './queries/login-user.query-handler';
 import { UserModule } from '../user/user.module';
 import { SharedModule } from '../../shared/shared.module';
-import { RegisterUserQueryHandler } from './queries/register-user.query-handler';
+import { RegisterUserCommandHandler } from './commands/register-user.command-handler';
+import { RefreshTokenCommandHandler } from './commands/refresh-token.command-handler';
+import { LocalStrategy } from './strategies/local.strategy';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 
-const QueryHandlers = [LoginUserQueryHandler, RegisterUserQueryHandler];
+const CommandHandlers = [
+  RefreshTokenCommandHandler,
+  RegisterUserCommandHandler,
+];
+const QueryHandlers = [LoginUserQueryHandler];
 
 @Module({
   controllers: [AuthController],
-  imports: [UserModule, SharedModule],
-  providers: [AuthService, ...QueryHandlers],
+  imports: [
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET_KEY') || 'example@123',
+        signOptions: {
+          expiresIn: configService.get('JWT_EXPIRATION_TIME') || '1d',
+        },
+      }),
+      inject: [ConfigService],
+    }),
+    PassportModule,
+    SharedModule,
+    UserModule,
+  ],
+  providers: [AuthService, ...CommandHandlers, LocalStrategy, ...QueryHandlers],
+  exports: [JwtModule, LocalStrategy, PassportModule],
 })
 export class AuthModule {}

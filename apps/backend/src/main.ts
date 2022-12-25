@@ -3,18 +3,19 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestApplicationOptions } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { initServer } from './app/config/server.config';
 
 async function bootstrap() {
   const serverConfig: NestApplicationOptions = {
     cors: true,
   };
 
-  const app = await NestFactory.create<NestExpressApplication>(
+  let app = await NestFactory.create<NestExpressApplication>(
     AppModule,
-    serverConfig,
+    serverConfig
   );
 
-  console.log('root folder : ', __dirname);
+  app = initServer(app);
 
   // Swagger added
   const config = new DocumentBuilder()
@@ -27,5 +28,6 @@ async function bootstrap() {
 
   return await app.listen(process.env?.PORT ?? 3000);
 }
-bootstrap()
-  .then((server) => console.log(`Server started on`, server.address()))
+bootstrap().then((server) =>
+  console.log(`Server started on`, server.address())
+);

@@ -1,4 +1,4 @@
-export class RegisterUserQuery {
+export class RegisterUserCommand {
   constructor(
     private readonly _email: string,
     private readonly _firstname: string,

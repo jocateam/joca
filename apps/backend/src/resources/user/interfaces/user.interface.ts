@@ -5,4 +5,7 @@ export interface UserInterface {
   firstname: string;
   lastname: string;
   password: string;
+  salt: string;
+  token: string;
+  tokenValidityDate: Date;
 }

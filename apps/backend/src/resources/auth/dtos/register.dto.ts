@@ -1,5 +1,4 @@
 import { IsDefined, IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterDto {
@@ -19,7 +18,6 @@ export class RegisterDto {
   lastname: string;
 
   @ApiProperty()
-  @Exclude()
   @MinLength(8)
   @IsDefined()
   password: string;

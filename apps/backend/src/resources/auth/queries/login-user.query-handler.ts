@@ -1,12 +1,13 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { User } from '../../user/user.entity';
-import { Inject, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Inject } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../../shared/constants';
 import { Repository } from 'typeorm';
 import { LoginUserQuery } from './login-user.query';
 import { hash } from 'bcrypt';
 import { instanceToPlain } from 'class-transformer';
 import { UserInterface } from '../../user/interfaces/user.interface';
+import { HttpException } from '../../../shared/exceptions/http.exception';
 
 @QueryHandler(LoginUserQuery)
 export class LoginUserQueryHandler
@@ -25,8 +26,13 @@ export class LoginUserQueryHandler
         }
         return Promise.reject();
       })
-      .catch(() => {
-        throw new UnauthorizedException('No user found');
+      .catch((e) => {
+        throw new HttpException(
+          'No user found',
+          [],
+          HttpStatus.UNAUTHORIZED,
+          e
+        );
       });
   }
 }

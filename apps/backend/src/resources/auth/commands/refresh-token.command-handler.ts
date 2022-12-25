@@ -2,8 +2,9 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RefreshTokenCommand } from './refresh-token.command';
 import { Repository } from 'typeorm';
 import { User } from '../../user/user.entity';
-import { BadRequestException, Inject } from '@nestjs/common';
+import { HttpStatus, Inject } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../../shared/constants';
+import { HttpException } from '../../../shared/exceptions/http.exception';
 
 @CommandHandler(RefreshTokenCommand)
 export class RefreshTokenCommandHandler
@@ -23,6 +24,6 @@ export class RefreshTokenCommandHandler
       return Promise.resolve('');
     }
 
-    throw new BadRequestException('Bad token');
+    throw new HttpException('Bad token', [], HttpStatus.BAD_REQUEST);
   }
 }

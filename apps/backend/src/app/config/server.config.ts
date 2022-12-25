@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import * as morgan from 'morgan';
+import { HttpFilter } from '../../shared/filters/http.filter';
+import { DefaultFormatInterceptor } from '../../shared/interceptors/default-format.interceptor';
 
 export const initServer = (
   app: NestExpressApplication
@@ -18,4 +20,6 @@ export const initServer = (
       })
     )
     .useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
+    .useGlobalInterceptors(new DefaultFormatInterceptor())
+    .useGlobalFilters(new HttpFilter())
     .use(morgan('dev'));

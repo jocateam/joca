@@ -1,12 +1,13 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { User } from '../../user/user.entity';
-import { BadRequestException, Inject } from '@nestjs/common';
+import { HttpStatus, Inject } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../../shared/constants';
 import { Repository } from 'typeorm';
 import { RegisterUserCommand } from './register-user.command';
 import { UserService } from '../../user/user.service';
 import { genSalt } from 'bcrypt';
 import { ToolsService } from '../../../shared/services/tools.service';
+import { HttpException } from '../../../shared/exceptions/http.exception';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserCommandHandler
@@ -39,7 +40,7 @@ export class RegisterUserCommandHandler
         .insert(user)
         .then((res) => this._userService.getUserById(res.identifiers[0].id));
     } else {
-      throw new BadRequestException('Not unique user');
+      throw new HttpException('Not unique user', [], HttpStatus.UNAUTHORIZED);
     }
   }
 }

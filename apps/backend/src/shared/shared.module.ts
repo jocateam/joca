@@ -5,7 +5,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [DatabaseModule, CqrsModule],
-  exports: [CqrsModule, DatabaseModule, ToolsService],
   providers: [ToolsService],
+  exports: [CqrsModule, DatabaseModule, ToolsService],
 })
 export class SharedModule {}

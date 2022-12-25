@@ -5,6 +5,7 @@ import { User } from '../../user/user.entity';
 import { HttpStatus, Inject } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../../shared/constants';
 import { HttpException } from '../../../shared/exceptions/http.exception';
+import { INVALID_TOKEN } from '../../../shared/constants/errors';
 
 @CommandHandler(RefreshTokenCommand)
 export class RefreshTokenCommandHandler
@@ -24,6 +25,6 @@ export class RefreshTokenCommandHandler
       return Promise.resolve('');
     }
 
-    throw new HttpException('Bad token', [], HttpStatus.BAD_REQUEST);
+    throw new HttpException(INVALID_TOKEN, [], HttpStatus.UNAUTHORIZED);
   }
 }

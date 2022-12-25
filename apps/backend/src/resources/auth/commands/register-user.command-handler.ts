@@ -8,6 +8,7 @@ import { UserService } from '../../user/user.service';
 import { genSalt } from 'bcrypt';
 import { ToolsService } from '../../../shared/services/tools.service';
 import { HttpException } from '../../../shared/exceptions/http.exception';
+import { EMAIL_ALREADY_USED } from '../../../shared/constants/errors';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserCommandHandler
@@ -40,7 +41,7 @@ export class RegisterUserCommandHandler
         .insert(user)
         .then((res) => this._userService.getUserById(res.identifiers[0].id));
     } else {
-      throw new HttpException('Not unique user', [], HttpStatus.UNAUTHORIZED);
+      throw new HttpException(EMAIL_ALREADY_USED, [], HttpStatus.UNAUTHORIZED);
     }
   }
 }

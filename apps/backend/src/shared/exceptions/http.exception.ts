@@ -1,11 +1,6 @@
 import { HttpException as NestHttpException } from '@nestjs/common';
 import { HttpExceptionOptions } from '@nestjs/common/exceptions/http.exception';
-
-interface ExceptionDetail {
-  property?: string;
-  children?: any[];
-  constraints?: { [key: string]: string };
-}
+import { ExceptionDetail } from '../interfaces/exception-detail.interface';
 
 export class HttpException extends NestHttpException {
   public decription: string;

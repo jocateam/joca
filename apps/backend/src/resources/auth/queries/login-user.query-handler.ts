@@ -8,6 +8,7 @@ import { hash } from 'bcrypt';
 import { instanceToPlain } from 'class-transformer';
 import { UserInterface } from '../../user/interfaces/user.interface';
 import { HttpException } from '../../../shared/exceptions/http.exception';
+import { INVALID_CREDENTIALS } from '../../../shared/constants/errors';
 
 @QueryHandler(LoginUserQuery)
 export class LoginUserQueryHandler
@@ -28,7 +29,7 @@ export class LoginUserQueryHandler
       })
       .catch((e) => {
         throw new HttpException(
-          'No user found',
+          INVALID_CREDENTIALS,
           [],
           HttpStatus.UNAUTHORIZED,
           e

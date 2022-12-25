@@ -8,17 +8,17 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from '../user/user.entity';
 import { ApiBody } from '@nestjs/swagger';
 import { LoginDto } from './dtos/login.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller()
 export class AuthController {
   constructor(private readonly _authService: AuthService) {}
 
   @ApiBody({ type: LoginDto })
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalAuthGuard)
   @Post('/auth/login')
   login(@Request() req: { user: User }) {
     return req.user;

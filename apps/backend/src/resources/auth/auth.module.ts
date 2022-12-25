@@ -10,6 +10,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 const CommandHandlers = [
   RefreshTokenCommandHandler,
@@ -33,7 +34,13 @@ const QueryHandlers = [LoginUserQueryHandler];
     SharedModule,
     UserModule,
   ],
-  providers: [AuthService, ...CommandHandlers, LocalStrategy, ...QueryHandlers],
-  exports: [JwtModule, LocalStrategy, PassportModule],
+  providers: [
+    AuthService,
+    ...CommandHandlers,
+    LocalStrategy,
+    JwtStrategy,
+    ...QueryHandlers,
+  ],
+  exports: [JwtModule],
 })
 export class AuthModule {}

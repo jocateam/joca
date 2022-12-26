@@ -10,6 +10,8 @@ export class HttpFilter implements ExceptionFilter {
     const status = exception.getStatus();
     const exceptionReponse = exception.getResponse() as { details: any[] };
 
+    console.log(exception.baseException);
+
     response.status(status).json({
       data: null,
       success: false,

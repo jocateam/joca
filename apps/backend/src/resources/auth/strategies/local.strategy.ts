@@ -11,7 +11,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     private readonly authService: AuthService,
     private readonly jwtService: JwtService
   ) {
-    console.log('on local strategy');
     super({ usernameField: 'email' });
   }
 

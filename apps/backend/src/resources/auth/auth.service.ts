@@ -31,6 +31,8 @@ export class AuthService {
   }
 
   public refresh(refreshToken: string, jwt: string) {
-    return this._commandBus.execute(new RefreshTokenCommand(refreshToken, jwt));
+    return this._commandBus
+      .execute(new RefreshTokenCommand(refreshToken, jwt))
+      .then((access_token) => ({ access_token }));
   }
 }

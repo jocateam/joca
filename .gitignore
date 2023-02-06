@@ -40,3 +40,8 @@ Thumbs.db
 
 # Next.js
 .next
+
+.angular
+
+#Dev container
+.devcontainer
